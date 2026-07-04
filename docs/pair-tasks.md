@@ -93,7 +93,7 @@ curl -s -X POST localhost:8080/probe -H 'Content-Type: application/json' \
 2. Build: `zig build wasm` → `web/probe.wasm`
 3. Load in browser; validate before calling API
 
-See full solution in `solution/wasm/` and `solution/web/index.html`.
+Facilitators: full WASM + UI reference is on `solution/siteprobe` — see [facilitator.md](facilitator.md).
 
 ---
 

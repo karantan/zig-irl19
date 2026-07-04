@@ -32,10 +32,10 @@
 
 - [ ] Everyone ran `devenv shell` from `zig-irl19/` ([install.md](install.md))
 - [ ] Starter repo builds: `zig build` OK, `zig build test` 2 pass / 2 fail
-- [ ] Solution tested: `devenv shell`, then `cd solution && zig build test && zig build run`
+- [ ] Solution tested — see [facilitator.md](facilitator.md) (`solution/siteprobe` branch)
 - [ ] Whiteboard: memory diagram (stack / heap / allocator)
 - [ ] Whiteboard: [endpoint contract](endpoint-contract.md)
-- [ ] Do not share `solution/` until retro
+- [ ] Do not share `solution/siteprobe` branch until retro
 
 ## Key messages
 

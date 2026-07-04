@@ -57,4 +57,4 @@ Use URLs from [demo-urls.txt](demo-urls.txt) for demos.
 
 ## Reference
 
-Full working code: `solution/` (do not share until retro).
+Full working code is on branch `solution/siteprobe` — facilitators only; see [facilitator.md](facilitator.md).

@@ -31,9 +31,10 @@ zig-irl19/
     index.html        # browser UI (Pair C)
   wasm/
     lib.zig           # stretch: export validateUrl to WASM
-  docs/               # facilitator + participant materials
-  solution/           # reference implementation (don't peek until end!)
+  docs/               # guides + cheat sheet
 ```
+
+> **Facilitators:** reference implementation is on branch `solution/siteprobe` — see [docs/facilitator.md](docs/facilitator.md). Do not share until the retro.
 
 ## Afternoon goal
 
@@ -75,11 +76,6 @@ Full agenda: [docs/agenda.md](docs/agenda.md)
 - [Pair task cards](docs/pair-tasks.md)
 - [Demo URLs](docs/demo-urls.txt)
 
-## Solution
+## Facilitators
 
-Reference code lives in [`solution/`](solution/). From `devenv shell`:
-
-```bash
-cd solution
-zig build run
-```
+See [docs/facilitator.md](docs/facilitator.md) for the solution branch and pre-flight setup.

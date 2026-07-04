@@ -53,7 +53,7 @@ curl http://127.0.0.1:8080/health
 # {"status":"ok"}
 ```
 
-The `solution/` subdirectory uses the same environment — stay in `devenv shell` and `cd solution` as needed.
+Facilitators: verify the reference implementation from the `solution/siteprobe` branch — see [facilitator.md](facilitator.md).
 
 ## How it works
 

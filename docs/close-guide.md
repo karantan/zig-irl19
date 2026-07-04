@@ -13,7 +13,7 @@ cd zig-irl19
 zig build wasm    # produces web/probe.wasm
 ```
 
-1. Implement `validateUrl` in `wasm/lib.zig` (see `solution/wasm/lib.zig`)
+1. Implement `validateUrl` in `wasm/lib.zig` (facilitators: see reference on `solution/siteprobe` branch)
 2. Load in `web/index.html`:
 
 ```javascript
@@ -34,7 +34,7 @@ wasmExports.validateUrl(0, bytes.length);
 
 **Facilitator demo (if no pair finishes WASM)**
 
-Run solution:
+Use the reference on `solution/siteprobe` — see [facilitator.md](facilitator.md):
 
 ```bash
 cd solution
@@ -64,12 +64,7 @@ python3 -m http.server -d zig-out/web 8888
 
 **Reveal solution**
 
-```bash
-cd solution
-zig build test && zig build run
-```
-
-Walk through diff vs starter — focus on `probe.zig` + POST handler, not every line.
+See [facilitator.md](facilitator.md) — merge or diff `solution/siteprobe` vs `main`, then walk through `probe.zig` + POST handler.
 
 ---
 
