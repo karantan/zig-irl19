@@ -1,7 +1,6 @@
 { pkgs, ... }: {
   languages.zig = {
     enable = true;
-    version = "0.16.0";
   };
 
   packages = [
