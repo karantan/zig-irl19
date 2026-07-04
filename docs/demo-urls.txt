@@ -1,0 +1,6 @@
+https://example.com
+https://httpbin.org/status/200
+https://httpbin.org/status/404
+https://httpbin.org/status/301
+https://httpbin.org/delay/2
+http://127.0.0.1:1

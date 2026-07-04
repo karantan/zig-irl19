@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SiteProbe</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      font-family: system-ui, sans-serif;
+      line-height: 1.5;
+    }
+    body {
+      max-width: 42rem;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    form {
+      display: grid;
+      gap: 0.75rem;
+    }
+    input[type="url"] {
+      width: 100%;
+      padding: 0.5rem;
+      font: inherit;
+    }
+    button {
+      width: fit-content;
+      padding: 0.5rem 1rem;
+      font: inherit;
+      cursor: pointer;
+    }
+    pre {
+      background: rgba(127, 127, 127, 0.15);
+      padding: 1rem;
+      overflow-x: auto;
+      border-radius: 0.5rem;
+    }
+    .error { color: #c0392b; }
+    .ok { color: #27ae60; }
+    .hint {
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>SiteProbe</h1>
+  <p class="hint">
+    Start the API with <code>zig build run</code>, then probe a URL.
+    Pair C: polish this UI and wire up optional WASM validation.
+  </p>
+
+  <form id="probe-form">
+    <label for="url">URL</label>
+    <input id="url" name="url" type="url" required placeholder="https://example.com" value="https://example.com">
+    <button type="submit">Probe</button>
+  </form>
+
+  <p id="status"></p>
+  <pre id="output">Submit a URL to see the JSON response.</pre>
+
+  <script>
+    const API = "http://127.0.0.1:8080";
+
+    // TODO (stretch): load probe.wasm and validate before fetch().
+    // Copy pattern from solution/web/index.html — write URL bytes to WASM
+    // linear memory offset 0, then call validateUrl(0, len).
+    async function loadWasmValidator() {
+      return null;
+    }
+
+    document.getElementById("probe-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const statusEl = document.getElementById("status");
+      const outputEl = document.getElementById("output");
+      const url = document.getElementById("url").value.trim();
+
+      statusEl.textContent = "Probing…";
+      statusEl.className = "";
+      outputEl.textContent = "";
+
+      try {
+        const response = await fetch(`${API}/probe`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url }),
+        });
+        const body = await response.json();
+        outputEl.textContent = JSON.stringify(body, null, 2);
+        statusEl.textContent = response.ok ? "OK" : `HTTP ${response.status}`;
+        statusEl.className = response.ok ? "ok" : "error";
+      } catch (error) {
+        statusEl.textContent = "Request failed — is the server running?";
+        statusEl.className = "error";
+        outputEl.textContent = String(error);
+      }
+    });
+
+    loadWasmValidator();
+  </script>
+</body>
+</html>
