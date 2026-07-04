@@ -2,6 +2,143 @@
 
 For web developers with Python + Go background. Zig 0.16.0 syntax.
 
+## Zig basics & conventions
+
+### Where does the program start?
+
+**Go** — you need all three:
+
+```go
+package main          // special package name
+
+func main() {         // entry point
+```
+
+Usually in `main.go` at the module root, or `cmd/myapp/main.go` for larger projects.
+
+**Zig** — no `package` keyword. The **build system** picks the entry file:
+
+| File | Role |
+|------|------|
+| `build.zig` | Defines targets (`zig build run`, `zig build test`) — think `go.mod` + Makefile |
+| `src/main.zig` | Executable entry point for this repo |
+| `src/probe.zig` | Separate module, imported as `@import("probe")` |
+
+Entry point in 0.16:
+
+```zig
+pub fn main(init: std.process.Init) !void {
+    const io = init.io;
+    // ...
+}
+```
+
+- `pub` — must be public (see below)
+- `!void` — may return an error (like `error` in Go, but in the type)
+- `init.io` — I/O handle for networking, clocks, etc. (new in 0.16)
+
+Run: `zig build run` (not `go run .` — Zig compiles via `build.zig`).
+
+### Public vs private
+
+**Go** — export by **capitalization**:
+
+```go
+func Public() {}   // exported
+func private() {} // package-private only
+```
+
+**Zig** — export by **`pub` keyword** (letter case does not matter):
+
+```zig
+pub fn probeUrl(...) !ProbeResult { ... }  // visible to importers
+fn dispatch(...) !void { ... }              // private to this file/module
+pub const ProbeResult = struct { ... };     // public type
+const helper = 42;                          // private constant
+```
+
+| Go | Zig |
+|----|-----|
+| `func Foo()` exported | `pub fn foo()` exported |
+| `func foo()` private | `fn foo()` private |
+| Capitalized type `ProbeResult` | `pub const ProbeResult = struct ...` |
+
+When another file does `const probe = @import("probe")`, it only sees `pub` declarations from `probe.zig`.
+
+### Naming conventions
+
+| What | Convention | Example |
+|------|------------|---------|
+| Source files | `snake_case.zig` | `probe_test.zig`, `main.zig` |
+| Functions | `snake_case` | `isValidUrl`, `probeUrl` |
+| Types / structs | `PascalCase` | `ProbeResult`, `ProbeError` |
+| Constants | `snake_case` or `PascalCase` for types | `const max_len = 4096` |
+| Namespaced imports | `@import("name")` | `@import("std")`, `@import("probe")` |
+
+Go's mixedCaps for exported names does **not** apply — use `pub` + `snake_case` instead.
+
+### Project layout (this repo)
+
+```text
+zig-irl19/
+  build.zig           # build config — modules, test target, wasm target
+  src/
+    main.zig          # HTTP server (executable root)
+    probe.zig         # domain logic (imported module)
+    probe_test.zig    # tests (import probe, run via zig build test)
+  web/index.html      # static UI (not part of Zig build except wasm step)
+  wasm/lib.zig        # optional WASM export
+```
+
+**Go equivalent mental model:**
+
+| Go | Zig |
+|----|-----|
+| `go.mod` | `build.zig` + `build.zig.zon` (dependencies, if any) |
+| `package main` + `main.go` | `src/main.zig` with `pub fn main` |
+| `internal/probe/probe.go` | `src/probe.zig` + `build.zig` import mapping |
+| `probe_test.go` | `probe_test.zig` or `test "..."` blocks inline |
+| `go test ./...` | `zig build test` |
+| `go run .` | `zig build run` |
+
+### Other conventions worth knowing
+
+- **Semicolons** — required after statements (Go mostly optional).
+- **No classes** — use `struct` + functions; no inheritance.
+- **No exceptions** — errors are values (`!T`, `error{...}`); use `try` / `catch`.
+- **No hidden allocations** — pass an `Allocator` when you need heap memory.
+- **Tests live anywhere** — `test "description" { ... }` blocks in any `.zig` file; this repo puts them in `probe_test.zig`.
+- **Reserved words** — `error` is reserved; for a JSON field use `@"error"`.
+- **Compile-time code** — `comptime` blocks run at compile time (generics-lite); skip deep dive on day 1.
+
+### Minimal “hello” comparison
+
+**Go**
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("hello")
+}
+```
+
+**Zig**
+
+```zig
+const std = @import("std");
+
+pub fn main() !void {
+    try std.io.getStdOut().writer().print("hello\n", .{});
+}
+```
+
+(In 0.16 with I/O changes, our server uses `main(init: std.process.Init)` — see HTTP section below.)
+
+---
+
 ## Syntax parallels
 
 | Idea | Go | Python | Zig |

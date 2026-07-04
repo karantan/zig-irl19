@@ -12,6 +12,7 @@ Facilitator script for the whole-group morning block. Live-code in the starter r
 - Good fit: CLI tools, native services, WASM modules, C interop
 - Not today: replacing Python scripts or building Django/Flask-style apps
 - Team context: you already build HTTP tooling in Go — today asks "what if this hot path were native?"
+- **Go → Zig conventions** (5 min whiteboard): no `package main` — `build.zig` + `src/main.zig`; public = `pub` keyword, not capital letters; see [cheat-sheet.md § Zig basics](cheat-sheet.md#zig-basics--conventions)
 
 **Live demo**
 

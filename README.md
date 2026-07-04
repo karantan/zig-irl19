@@ -71,7 +71,7 @@ Full agenda: [docs/agenda.md](docs/agenda.md)
 ## Reference materials
 
 - [Install guide](docs/install.md)
-- [Go/Python → Zig cheat sheet](docs/cheat-sheet.md)
+- [Go/Python → Zig cheat sheet](docs/cheat-sheet.md) — includes project layout, `pub` vs private, naming
 - [API contract](docs/endpoint-contract.md)
 - [Pair task cards](docs/pair-tasks.md)
 - [Demo URLs](docs/demo-urls.txt)
